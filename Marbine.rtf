@@ -1,0 +1,391 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 # MARBINE MEMORIES\par
+\par
+## Software Requirements Specification (SRS)\par
+\par
+### Project Information\par
+\par
+**Project Name:** Marbine Memories\par
+\par
+**Version:** 1.0\par
+\par
+**Prepared By:** Marc\par
+\par
+**Technology Stack:**\par
+\par
+* Frontend: React.js\par
+* Backend: Node.js + Express.js\par
+* Database: MySQL\par
+* Authentication: JWT\par
+* Hosting: Vercel (Frontend) & VPS/Render (Backend)\par
+\par
+---\par
+\par
+# 1. Introduction\par
+\par
+## 1.1 Purpose\par
+\par
+Marbine Memories is a private web application designed to preserve and celebrate the journey of Marc and Blandine. The platform will serve as a digital space where memories, photos, messages, milestones, and future goals can be stored and shared securely.\par
+\par
+## 1.2 Goals\par
+\par
+* Create a personalized memory-sharing platform.\par
+* Store relationship milestones and achievements.\par
+* Provide a private gallery for photos and videos.\par
+* Enable secure message sharing.\par
+* Track important dates and anniversaries.\par
+* Build a meaningful software project under the "Marbine" identity.\par
+\par
+---\par
+\par
+# 2. System Overview\par
+\par
+The system consists of:\par
+\par
+### Frontend Application\par
+\par
+Developed using React.js.\par
+\par
+Responsibilities:\par
+\par
+* User Interface\par
+* Dashboard\par
+* Gallery Display\par
+* Timeline Visualization\par
+* Profile Management\par
+\par
+### Backend API\par
+\par
+Developed using Node.js and Express.js.\par
+\par
+Responsibilities:\par
+\par
+* Authentication\par
+* Data Processing\par
+* File Upload Management\par
+* Database Communication\par
+\par
+### Database\par
+\par
+MySQL Database\par
+\par
+Responsibilities:\par
+\par
+* User Management\par
+* Memory Storage\par
+* Message Storage\par
+* Timeline Events\par
+* Media Metadata\par
+\par
+---\par
+\par
+# 3. Functional Requirements\par
+\par
+## 3.1 User Authentication\par
+\par
+Features:\par
+\par
+* User Registration\par
+* User Login\par
+* JWT Authentication\par
+* Password Encryption using bcrypt\par
+* Logout Functionality\par
+\par
+---\par
+\par
+## 3.2 User Profiles\par
+\par
+Each user can:\par
+\par
+* View profile\par
+* Update profile information\par
+* Upload profile picture\par
+* Change password\par
+\par
+Fields:\par
+\par
+* Full Name\par
+* Email\par
+* Bio\par
+* Profile Image\par
+\par
+---\par
+\par
+## 3.3 Memories Management\par
+\par
+Users can:\par
+\par
+* Add memories\par
+* Edit memories\par
+* Delete memories\par
+* Categorize memories\par
+\par
+Memory Fields:\par
+\par
+* Title\par
+* Description\par
+* Date\par
+* Location\par
+* Image\par
+* Category\par
+\par
+---\par
+\par
+## 3.4 Gallery Module\par
+\par
+Features:\par
+\par
+* Upload photos\par
+* Upload videos\par
+* View gallery\par
+* Filter by category\par
+* Download media\par
+\par
+Supported Formats:\par
+\par
+* JPG\par
+* PNG\par
+* JPEG\par
+* MP4\par
+\par
+---\par
+\par
+## 3.5 Timeline Module\par
+\par
+Features:\par
+\par
+* Create milestone events\par
+* Display chronological timeline\par
+* Edit timeline entries\par
+\par
+Examples:\par
+\par
+* First Meeting\par
+* Graduation Day\par
+* First Project Together\par
+* Anniversary\par
+\par
+---\par
+\par
+## 3.6 Love Notes Module\par
+\par
+Features:\par
+\par
+* Send private notes\par
+* Save favorite messages\par
+* Search messages\par
+\par
+Fields:\par
+\par
+* Sender\par
+* Receiver\par
+* Subject\par
+* Message\par
+* Date\par
+\par
+---\par
+\par
+## 3.7 Anniversary Counter\par
+\par
+Features:\par
+\par
+* Calculate days together\par
+* Calculate months together\par
+* Calculate years together\par
+* Countdown to next anniversary\par
+\par
+---\par
+\par
+## 3.8 Future Goals Module\par
+\par
+Features:\par
+\par
+* Create goals\par
+* Update progress\par
+* Mark completed goals\par
+\par
+Examples:\par
+\par
+* Launch Startup\par
+* Build SaaS Product\par
+* Travel Together\par
+* Complete New Certification\par
+\par
+---\par
+\par
+# 4. Non-Functional Requirements\par
+\par
+### Security\par
+\par
+* JWT Authentication\par
+* Password Hashing\par
+* SQL Injection Protection\par
+* XSS Protection\par
+* HTTPS Communication\par
+\par
+### Performance\par
+\par
+* API Response Time < 2 Seconds\par
+* Optimized Database Queries\par
+* Lazy Loading Images\par
+\par
+### Scalability\par
+\par
+* Modular Architecture\par
+* RESTful APIs\par
+* Reusable React Components\par
+\par
+---\par
+\par
+# 5. Database Design\par
+\par
+## Users Table\par
+\par
+| Field         | Type         |\par
+| ------------- | ------------ |\par
+| id            | INT          |\par
+| fullname      | VARCHAR(100) |\par
+| email         | VARCHAR(100) |\par
+| password      | VARCHAR(255) |\par
+| profile_image | VARCHAR(255) |\par
+| created_at    | TIMESTAMP    |\par
+\par
+---\par
+\par
+## Memories Table\par
+\par
+| Field       | Type         |\par
+| ----------- | ------------ |\par
+| id          | INT          |\par
+| user_id     | INT          |\par
+| title       | VARCHAR(255) |\par
+| description | TEXT         |\par
+| image_url   | VARCHAR(255) |\par
+| memory_date | DATE         |\par
+| created_at  | TIMESTAMP    |\par
+\par
+---\par
+\par
+## Gallery Table\par
+\par
+| Field       | Type         |\par
+| ----------- | ------------ |\par
+| id          | INT          |\par
+| user_id     | INT          |\par
+| file_url    | VARCHAR(255) |\par
+| file_type   | VARCHAR(50)  |\par
+| uploaded_at | TIMESTAMP    |\par
+\par
+---\par
+\par
+## Messages Table\par
+\par
+| Field       | Type         |\par
+| ----------- | ------------ |\par
+| id          | INT          |\par
+| sender_id   | INT          |\par
+| receiver_id | INT          |\par
+| subject     | VARCHAR(255) |\par
+| message     | TEXT         |\par
+| sent_at     | TIMESTAMP    |\par
+\par
+---\par
+\par
+## Timeline Table\par
+\par
+| Field       | Type         |\par
+| ----------- | ------------ |\par
+| id          | INT          |\par
+| title       | VARCHAR(255) |\par
+| description | TEXT         |\par
+| event_date  | DATE         |\par
+| created_at  | TIMESTAMP    |\par
+\par
+---\par
+\par
+## Goals Table\par
+\par
+| Field       | Type                                      |\par
+| ----------- | ----------------------------------------- |\par
+| id          | INT                                       |\par
+| title       | VARCHAR(255)                              |\par
+| description | TEXT                                      |\par
+| status      | ENUM('Pending','In Progress','Completed') |\par
+| target_date | DATE                                      |\par
+\par
+---\par
+\par
+# 6. API Endpoints\par
+\par
+### Authentication\par
+\par
+POST /api/auth/register\par
+\par
+POST /api/auth/login\par
+\par
+GET /api/auth/profile\par
+\par
+---\par
+\par
+### Memories\par
+\par
+GET /api/memories\par
+\par
+POST /api/memories\par
+\par
+PUT /api/memories/:id\par
+\par
+DELETE /api/memories/:id\par
+\par
+---\par
+\par
+### Gallery\par
+\par
+GET /api/gallery\par
+\par
+POST /api/gallery/upload\par
+\par
+DELETE /api/gallery/:id\par
+\par
+---\par
+\par
+### Messages\par
+\par
+GET /api/messages\par
+\par
+POST /api/messages\par
+\par
+DELETE /api/messages/:id\par
+\par
+---\par
+\par
+### Timeline\par
+\par
+GET /api/timeline\par
+\par
+POST /api/timeline\par
+\par
+PUT /api/timeline/:id\par
+\par
+DELETE /api/timeline/:id\par
+\par
+---\par
+\par
+# 7. Future Enhancements\par
+\par
+* Real-time Chat (Socket.io)\par
+* AI Memory Assistant\par
+* Voice Notes\par
+* Push Notifications\par
+* Mobile App (React Native)\par
+* Shared Calendar\par
+* Cloud Backup\par
+\par
+---\par
+\par
+# 8. Project Vision\par
+\par
+"Marbine Memories is more than a software application; it is a digital home for memories, achievements, love, and the future journey of two software engineers building both technology and life together."\par
+}
+ 

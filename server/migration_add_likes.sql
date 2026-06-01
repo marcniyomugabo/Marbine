@@ -1,0 +1,1 @@
+ALTER TABLE memories ADD COLUMN likes INT DEFAULT 0;

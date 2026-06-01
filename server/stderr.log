@@ -1,0 +1,17 @@
+Feedback submit error: Error: Access denied for user ''@'localhost' (using password: NO)
+    at exports.submit (E:\Marbine\server\controllers\contactController.js:12:31)
+    at Layer.handle [as handle_request] (E:\Marbine\server\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\Marbine\server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (E:\Marbine\server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (E:\Marbine\server\node_modules\express\lib\router\layer.js:95:5)
+    at E:\Marbine\server\node_modules\express\lib\router\index.js:284:15
+    at router.process_params (E:\Marbine\server\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Marbine\server\node_modules\express\lib\router\index.js:280:10)
+    at router.handle (E:\Marbine\server\node_modules\express\lib\router\index.js:175:3)
+    at router (E:\Marbine\server\node_modules\express\lib\router\index.js:47:12) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user ''@'localhost' (using password: NO)",
+  sql: undefined
+}
