@@ -15,8 +15,8 @@ const pool = mysql.createPool({
 const db = pool.promise();
 
 async function createAdmin() {
-  const email = 'marbine@gmail.com';
-  const password = 'Marbine@18';
+  const email = 'marbine18@gmail.com';
+  const password = 'marbine@18';
   const fullname = 'Marbine Admin';
   const hashed = await bcrypt.hash(password, 10);
 

@@ -51,15 +51,14 @@ exports.login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
+    if (!ADMIN_EMAILS.includes(email.toLowerCase())) {
+      return res.status(403).json({ error: 'Access denied. Unauthorized email.' });
+    }
     const [users] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
     if (users.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     const user = users[0];
-    const role = user.role || (ADMIN_EMAILS.includes(user.email.toLowerCase()) ? 'admin' : 'user');
-    if (role !== 'admin') {
-      return res.status(403).json({ error: 'Only admin can login' });
-    }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -76,7 +75,7 @@ exports.login = async (req, res) => {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
-        role,
+        role: user.role,
         profile_image: user.profile_image,
         isAdmin: true,
       },

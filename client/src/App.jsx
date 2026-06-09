@@ -7,7 +7,6 @@ import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Memories from './pages/Memories';
 import Gallery from './pages/Gallery';
 import Messages from './pages/Messages';
@@ -95,7 +94,7 @@ function AppLayout() {
             <AnimatePresence mode="wait">
               <Routes location={location} key={location.pathname}>
                 <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
-                <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
+
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/memories" element={<Memories />} />
                 <Route path="/gallery" element={<Gallery />} />

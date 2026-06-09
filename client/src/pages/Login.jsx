@@ -72,8 +72,7 @@ export default function Login() {
           </form>
 
           <p className="text-center text-xs mt-5" style={{ color: 'var(--text-tertiary)' }}>
-            Don't have an account?{' '}
-            <Link to="/register" className="font-medium transition-colors duration-200" style={{ color: '#ec4899' }}>Register</Link>
+            <span style={{ color: '#ec4899' }}>Admin access only</span>
           </p>
         </div>
       </motion.div>

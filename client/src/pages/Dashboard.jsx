@@ -275,18 +275,7 @@ export default function Dashboard() {
         </motion.div>
       </section>
 
-      <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16" style={{ background: 'radial-gradient(ellipse at center, rgba(236,72,153,0.03), transparent 70%)' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ type: 'spring', stiffness: 180, damping: 22 }}
-        >
-          <AnniversaryCounter />
-        </motion.div>
-      </section>
-
-      <section className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-16 sm:pb-24 lg:pb-32">
+      <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -300,6 +289,10 @@ export default function Dashboard() {
               <h2 className="text-2xl sm:text-3xl font-bold gradient-text">{isAdmin ? 'Explore Our World' : 'Journey Together'}</h2>
             </div>
             <span className="h-px flex-1 max-w-[160px]" style={{ background: 'linear-gradient(270deg, transparent, rgba(168,85,247,0.25))' }} />
+          </div>
+
+          <div className="mb-12">
+            <AnniversaryCounter />
           </div>
 
           <motion.div

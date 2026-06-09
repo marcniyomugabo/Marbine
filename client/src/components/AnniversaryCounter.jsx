@@ -78,12 +78,10 @@ export default function AnniversaryCounter() {
   if (!data) return null;
 
   const cards = [
-    { label: 'Years', value: data.years, delay: 0 },
-    { label: 'Months', value: data.months, delay: 0.05 },
-    { label: 'Days', value: live.days, delay: 0.1 },
-    { label: 'Hours', value: live.hours, delay: 0.15, pad: true },
-    { label: 'Minutes', value: live.minutes, delay: 0.2, pad: true },
-    { label: 'Seconds', value: live.seconds, delay: 0.25, pad: true },
+    { label: 'Days', value: live.days, delay: 0 },
+    { label: 'Hours', value: live.hours, delay: 0.05, pad: true },
+    { label: 'Minutes', value: live.minutes, delay: 0.1, pad: true },
+    { label: 'Seconds', value: live.seconds, delay: 0.15, pad: true },
   ];
 
   return (

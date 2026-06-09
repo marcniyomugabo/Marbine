@@ -66,6 +66,19 @@ export default function UserHome() {
         <RomanticMessage />
       </section>
 
+      {/* Together Since Counter */}
+      <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ type: 'spring', stiffness: 180, damping: 22 }}
+          className="max-w-4xl mx-auto"
+        >
+          <AnniversaryCounter />
+        </motion.div>
+      </section>
+
       {/* Hero Welcome */}
       <section className="hero-section min-h-[60vh]">
         <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -261,10 +274,6 @@ export default function UserHome() {
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{m.desc}</p>
               </motion.div>
             ))}
-          </div>
-
-          <div className="mt-12 mb-10">
-            <AnniversaryCounter />
           </div>
 
           <motion.div
