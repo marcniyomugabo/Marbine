@@ -5,6 +5,7 @@ dist/
 build/
 server/uploads/*
 !server/uploads/.gitkeep
+!server/uploads/
 *.log
 .DS_Store
 Thumbs.db

@@ -5,8 +5,8 @@
 | Layer | Hosting | Tech |
 |---|---|---|
 | **Frontend (React SPA)** | Vercel | React 19 + Vite 8 |
-| **Backend (API + Landing)** | Render | Node.js + Express |
-| **Database** | Railway | MySQL (via mysql2) |
+| **Backend (API)** | Render | Node.js + Express |
+| **Database** | Railway | MySQL |
 
 ---
 
@@ -14,19 +14,24 @@
 
 ### Steps
 
-1. **Create a Railway account** at [railway.app](https://railway.app)
-2. **Start a new project** → **Provision MySQL**
-3. Once provisioned, copy the **connection details** from the Railway dashboard:
-   - `MYSQL_HOST` (hostname)
-   - `MYSQL_PORT` (usually 3306)
-   - `MYSQL_USER` (username)
-   - `MYSQL_PASSWORD` (password)
-   - `MYSQL_DATABASE` (database name)
-4. **Import the schema** using Railway's CLI or any MySQL client:
+1. Go to [railway.app](https://railway.app) → **New Project** → **Provision MySQL**
+2. Once created, go to the MySQL dashboard and copy these values:
+   - `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`
+3. **Enable Public Networking** — go to **Networking** tab and click **Generate Public Network**
+4. Copy the public connection string — it looks like:
+   ```
+   mysql://<user>:<password>@<host>:<port>/<database>
+   ```
+5. **Import the schema** using any MySQL client (e.g., MySQL Workbench, TablePlus, or CLI):
    ```bash
    mysql -h <host> -P <port> -u <user> -p <database> < database.sql
    ```
-5. Enable **Public Networking** in Railway so Render can connect.
+6. **Create the admin user** (run from your local machine):
+   ```bash
+   cd server
+   node scripts/create-admin.js
+   ```
+   This creates the admin: **marbine18@gmail.com** / **marbine@18**
 
 ---
 
@@ -34,57 +39,45 @@
 
 ### Steps
 
-1. **Push your code to GitHub** (or GitLab/Bitbucket).
-2. **Go to [render.com](https://render.com)** → **New Web Service** → Connect your repository.
-3. Configure the service:
+1. Push the code to GitHub (or GitLab/Bitbucket)
+
+2. Go to [render.com](https://render.com) → **New Web Service** → Connect your repo
+
+3. Configure:
 
    | Setting | Value |
    |---|---|
-   | **Name** | `marbine-memories-api` |
    | **Root Directory** | `server` |
    | **Runtime** | Node |
    | **Build Command** | `npm install` |
-   | **Start Command** | `npm start` |
-   | **Plan** | Free or Starter |
+   | **Start Command** | `node index.js` |
+   | **Plan** | Free |
 
-4. Add the following **Environment Variables**:
+4. Add these **Environment Variables** (use the values from Railway MySQL):
 
    ```
    PORT=10000
    NODE_ENV=production
-   
-   # Database (from Railway)
+
    DB_HOST=<railway-mysql-host>
    DB_PORT=3306
    DB_USER=<railway-mysql-user>
    DB_PASSWORD=<railway-mysql-password>
-   DB_NAME=marbine_memories
+   DB_NAME=<railway-mysql-database>
    DB_SSL=true
-   
-   # JWT
-   JWT_SECRET=<generate-a-strong-random-string>
+
+   JWT_SECRET=<generate-a-random-string>
    JWT_EXPIRES_IN=7d
-   
-   # Admin emails (comma-separated)
-   ADMIN_EMAILS=marc@example.com,blandine@example.com
-   
-   # SMTP (for contact form)
-   SMTP_USER=your-email@gmail.com
-   SMTP_PASS=your-gmail-app-password
-   
-   # Feedback recipients
-   FEEDBACK_EMAIL_1=admin1@example.com
-   FEEDBACK_EMAIL_2=admin2@example.com
-   
-   # Frontend URL (must match Vercel app URL exactly)
+
+   ADMIN_EMAILS=marbine18@gmail.com
+
    FRONTEND_URL=https://marbine-memories.vercel.app
-   
-   # CORS origin (comma-separated for multiple domains)
    CORS_ORIGIN=https://marbine-memories.vercel.app
    ```
 
-5. **Deploy** — Render will build and start the server automatically.
-6. Note your Render URL: `https://marbine-memories-api.onrender.com`
+5. **Deploy** — Render will build and start the server
+
+6. After deployment, note your Render URL (e.g., `https://marbine-memories-api.onrender.com`)
 
 ---
 
@@ -92,25 +85,24 @@
 
 ### Steps
 
-1. **Push your code to GitHub** (same repo as backend).
-2. **Go to [vercel.com](https://vercel.com)** → **Add New Project** → Import your repository.
-3. Configure the project:
+1. Go to [vercel.com](https://vercel.com) → **Add New Project** → Import your repo
+
+2. Configure:
 
    | Setting | Value |
    |---|---|
    | **Root Directory** | `client` |
    | **Framework Preset** | Vite |
-   | **Build Command** | `npm run build` (auto-detected) |
-   | **Output Directory** | `dist` (auto-detected) |
+   | **Build Command** | `npm run build` |
+   | **Output Directory** | `dist` |
 
-4. Add the **Environment Variable**:
+3. Add the **Environment Variable**:
 
    ```
    VITE_API_URL=https://marbine-memories-api.onrender.com
    ```
 
-5. **Deploy** — Vercel will build and deploy the React app.
-6. Note your Vercel URL: `https://marbine-memories.vercel.app`
+4. **Deploy** — Vercel will build and deploy the React app
 
 ---
 
@@ -120,49 +112,34 @@
 
 | Variable | Required | Description |
 |---|---|---|
-| `PORT` | Yes | Server port (Render sets this automatically) |
+| `PORT` | Yes | Render sets this automatically |
 | `DB_HOST` | Yes | Railway MySQL hostname |
-| `DB_PORT` | Yes | Railway MySQL port (default: 3306) |
+| `DB_PORT` | Yes | Railway MySQL port |
 | `DB_USER` | Yes | Database user |
 | `DB_PASSWORD` | Yes | Database password |
 | `DB_NAME` | Yes | Database name |
-| `DB_SSL` | No | Set to `true` for Railway MySQL (required) |
-| `JWT_SECRET` | Yes | Secret key for JWT signing (strong random string) |
+| `DB_SSL` | No | Set to `true` for Railway MySQL |
+| `JWT_SECRET` | Yes | Secret for JWT signing |
 | `JWT_EXPIRES_IN` | No | Token expiry (default: `7d`) |
-| `ADMIN_EMAILS` | Yes | Comma-separated list of admin emails |
-| `SMTP_USER` | No | Gmail address for sending feedback emails |
-| `SMTP_PASS` | No | Gmail app password |
-| `FEEDBACK_EMAIL_1` | No | Primary feedback recipient |
-| `FEEDBACK_EMAIL_2` | No | Secondary feedback recipient |
-| `FRONTEND_URL` | Yes | Vercel frontend URL (for CORS + login redirect) |
-| `CORS_ORIGIN` | Yes | CORS allowed origins (comma-separated or `*`) |
+| `ADMIN_EMAILS` | Yes | `marbine18@gmail.com` |
+| `FRONTEND_URL` | Yes | Vercel frontend URL |
+| `CORS_ORIGIN` | Yes | Vercel frontend URL |
 
 ### Frontend (`client/.env`)
 
 | Variable | Required | Description |
 |---|---|---|
-| `VITE_API_URL` | Yes | Render backend URL (e.g., `https://marbine-memories-api.onrender.com`) |
+| `VITE_API_URL` | Yes | Render backend URL |
 
 ---
 
 ## 5. Post-Deployment Checks
 
-### Backend
-- [ ] Health check: `GET https://marbine-memories-api.onrender.com/api/anniversary` returns JSON
-- [ ] CORS is working: frontend can call backend without errors
-- [ ] Database connection is successful (check Render logs)
-- [ ] File uploads work (upload a memory/gallery image)
-
-### Frontend
-- [ ] Login page loads and authentication works
-- [ ] All pages render without console errors
-- [ ] API calls reach the correct backend URL
-- [ ] Production build has no broken assets
-
-### Database
-- [ ] All tables were created from `database.sql`
-- [ ] Admin users can register/login
-- [ ] Data persists across server restarts
+- [ ] Visit `https://marbine-memories-api.onrender.com/api/anniversary` — should return JSON
+- [ ] Login at `https://marbine-memories.vercel.app` with **marbine18@gmail.com** / **marbine@18**
+- [ ] Admin dashboard loads at `/admin`
+- [ ] Timeline, memories, gallery pages work
+- [ ] File uploads work (test with a gallery image)
 
 ---
 
@@ -171,28 +148,14 @@
 ```bash
 # Backend
 cd server
-cp .env.example .env   # fill in your local DB creds
+cp .env.example .env    # edit with your local MySQL creds
 npm install
 npm run dev
 
-# Frontend (in a separate terminal)
+# Frontend (separate terminal)
 cd client
-cp .env.example .env.local
 npm install
 npm run dev
 ```
 
 The Vite dev server proxies `/api` to `http://localhost:5000` automatically.
-
----
-
-## 7. Troubleshooting
-
-| Problem | Solution |
-|---|---|
-| `ECONNREFUSED` on DB | Check Railway Public Networking is enabled |
-| CORS errors in browser | Verify `CORS_ORIGIN` matches the exact Vercel URL |
-| Login redirects wrong | Check `FRONTEND_URL` env var on Render |
-| File uploads 404 | Express serves `/uploads` statically; ensure `server/uploads/` exists |
-| `ERR_SSL` on DB | Set `DB_SSL=true` for Railway MySQL |
-| Build fails on Vercel | Ensure `client/` is the root directory and `npm install` succeeds |
