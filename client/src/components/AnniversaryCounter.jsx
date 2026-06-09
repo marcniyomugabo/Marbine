@@ -47,7 +47,7 @@ function AnimatedValue({ value, label, delay, pad: doPad }) {
 
 export default function AnniversaryCounter() {
   const [data, setData] = useState(null);
-  const [live, setLive] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [live, setLive] = useState({ years: 0, months: 0, weeks: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
   const startRef = useRef(null);
 
   useEffect(() => {
@@ -62,13 +62,21 @@ export default function AnniversaryCounter() {
   useEffect(() => {
     if (!startRef.current) return;
     const tick = () => {
-      const diff = Date.now() - startRef.current.getTime();
+      const now = Date.now();
+      const start = startRef.current.getTime();
+      const diff = now - start;
       const totalSeconds = Math.floor(diff / 1000);
       const d = Math.floor(totalSeconds / 86400);
+      const y = Math.floor(d / 365);
+      const remYears = d % 365;
+      const m = Math.floor(remYears / 30);
+      const remMonths = remYears % 30;
+      const w = Math.floor(remMonths / 7);
+      const remainingDays = remMonths % 7;
       const h = Math.floor((totalSeconds % 86400) / 3600);
-      const m = Math.floor((totalSeconds % 3600) / 60);
+      const mi = Math.floor((totalSeconds % 3600) / 60);
       const s = totalSeconds % 60;
-      setLive({ days: d, hours: h, minutes: m, seconds: s });
+      setLive({ years: y, months: m, weeks: w, days: remainingDays, hours: h, minutes: mi, seconds: s });
     };
     tick();
     const interval = setInterval(tick, 1000);
@@ -78,10 +86,13 @@ export default function AnniversaryCounter() {
   if (!data) return null;
 
   const cards = [
-    { label: 'Days', value: live.days, delay: 0 },
-    { label: 'Hours', value: live.hours, delay: 0.05, pad: true },
-    { label: 'Minutes', value: live.minutes, delay: 0.1, pad: true },
-    { label: 'Seconds', value: live.seconds, delay: 0.15, pad: true },
+    { label: 'Years', value: live.years, delay: 0 },
+    { label: 'Months', value: live.months, delay: 0.04 },
+    { label: 'Weeks', value: live.weeks, delay: 0.08 },
+    { label: 'Days', value: live.days, delay: 0.12 },
+    { label: 'Hours', value: live.hours, delay: 0.16, pad: true },
+    { label: 'Minutes', value: live.minutes, delay: 0.2, pad: true },
+    { label: 'Seconds', value: live.seconds, delay: 0.24, pad: true },
   ];
 
   return (

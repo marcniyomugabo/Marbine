@@ -9,6 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,7 +63,12 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <input className="input-field" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-            <input className="input-field" type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+            <div className="relative">
+              <input className="input-field w-full pr-10" type={showPassword ? 'text' : 'password'} placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+              <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: 'var(--text-tertiary)' }} onClick={() => setShowPassword(!showPassword)}>
+                <i className={showPassword ? 'bi-eye-slash' : 'bi-eye'} />
+              </button>
+            </div>
             <motion.button type="submit" className="btn-primary w-full py-2.5 mt-1" whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
               <span className="flex items-center justify-center gap-2">
                 <i className="bi-heart-fill text-xs" />

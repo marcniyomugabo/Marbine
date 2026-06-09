@@ -211,6 +211,57 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      <div className="row g-4 mb-4">
+        <div className="col-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="card border-0 rounded-4 h-100 p-4"
+            style={{
+              background: 'var(--glass-bg)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--glass-shadow)',
+            }}
+          >
+            <div className="d-flex align-items-center gap-2 mb-3">
+              <i className="bi-journal-text fs-5" style={{ color: 'var(--text-tertiary)' }} />
+              <h5 className="fw-semibold text-uppercase mb-0" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', letterSpacing: '0.1em' }}>Recent Memories</h5>
+              <span className="h-px flex-grow-1" style={{ background: 'linear-gradient(270deg, transparent, rgba(236,72,153,0.1))' }} />
+            </div>
+            {(!stats?.recentMemories || stats.recentMemories.length === 0) ? (
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }} className="mb-0">No memories yet.</p>
+            ) : (
+              <div className="d-flex flex-column gap-1">
+                {stats.recentMemories.map((m) => (
+                  <div key={m.id} className="d-flex align-items-center gap-3 py-2 px-2 rounded-3"
+                    style={{ borderBottom: '1px solid var(--border-color)' }}
+                  >
+                    <div className="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0"
+                      style={{
+                        width: '2.5rem',
+                        height: '2.5rem',
+                        background: 'rgba(236,72,153,0.1)',
+                        color: '#ec4899',
+                        fontSize: '1.1rem',
+                      }}
+                    >
+                      <i className="bi-heart-fill" />
+                    </div>
+                    <div className="flex-grow-1 min-w-0">
+                      <p className="fw-medium text-truncate mb-0" style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>{m.title}</p>
+                      <p className="text-truncate mb-0" style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem' }}>{new Date(m.created_at).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

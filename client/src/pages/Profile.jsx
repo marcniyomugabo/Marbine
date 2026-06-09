@@ -8,6 +8,8 @@ export default function Profile() {
   const { user } = useAuth();
   const [profileForm, setProfileForm] = useState({ fullname: user?.fullname || '', email: user?.email || '' });
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '' });
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
   const [profileMsg, setProfileMsg] = useState('');
   const [passwordMsg, setPasswordMsg] = useState('');
   const [error, setError] = useState('');
@@ -97,8 +99,18 @@ export default function Profile() {
               </div>
             </div>
             {passwordMsg && <p className="text-xs text-center px-3 py-1.5 rounded-lg" style={{ color: '#22c55e', background: 'rgba(34,197,94,0.08)' }}>{passwordMsg}</p>}
-            <input className="input-field" type="password" placeholder="Current Password" value={passwordForm.currentPassword} onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })} required />
-            <input className="input-field" type="password" placeholder="New Password" value={passwordForm.newPassword} onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} required />
+            <div className="relative">
+              <input className="input-field w-full pr-10" type={showCurrent ? 'text' : 'password'} placeholder="Current Password" value={passwordForm.currentPassword} onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })} required />
+              <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: 'var(--text-tertiary)' }} onClick={() => setShowCurrent(!showCurrent)}>
+                <i className={showCurrent ? 'bi-eye-slash' : 'bi-eye'} />
+              </button>
+            </div>
+            <div className="relative">
+              <input className="input-field w-full pr-10" type={showNew ? 'text' : 'password'} placeholder="New Password" value={passwordForm.newPassword} onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })} required />
+              <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: 'var(--text-tertiary)' }} onClick={() => setShowNew(!showNew)}>
+                <i className={showNew ? 'bi-eye-slash' : 'bi-eye'} />
+              </button>
+            </div>
             <button className="btn-primary self-end btn-sm" type="submit"><span>Change Password</span></button>
           </motion.form>
         </div>
