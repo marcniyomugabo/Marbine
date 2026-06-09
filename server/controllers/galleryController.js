@@ -26,6 +26,11 @@ exports.upload = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
+    const [rows] = await db.query('SELECT user_id FROM gallery WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Media not found' });
+    if (req.user.role !== 'admin' && rows[0].user_id !== req.user.id) {
+      return res.status(403).json({ error: 'You can only delete your own uploads' });
+    }
     await db.query('DELETE FROM gallery WHERE id = ?', [req.params.id]);
     res.json({ message: 'Media deleted' });
   } catch (err) {

@@ -37,6 +37,17 @@ async function seed() {
     { user_id: blandineId, title: 'Sunset Walk', description: 'A beautiful sunset walk along the beach. The sky was painted in shades of orange and pink.', memory_date: '2025-05-10', location: 'Beachside', category: 'adventures' },
     { user_id: marcId, title: 'Movie Night', description: 'Cozy movie night at home with homemade popcorn and our favorite film.', memory_date: '2025-06-01', location: 'Home', category: 'dates' },
     { user_id: blandineId, title: 'Cooking Together', description: 'We tried making pasta from scratch. It was messy but so much fun!', memory_date: '2025-06-22', location: 'Home Kitchen', category: 'milestones' },
+    { user_id: marcId, title: 'Picnic at the Park', description: 'A surprise picnic with sandwiches, fresh juice, and a beautiful view of the lake.', memory_date: '2025-07-14', location: 'Central Park', category: 'adventures' },
+    { user_id: blandineId, title: 'Stargazing Night', description: 'We lay on the rooftop counting stars and dreaming about our future together.', memory_date: '2025-08-05', location: 'Rooftop Terrace', category: 'romantic' },
+    { user_id: marcId, title: 'Dancing in the Rain', description: 'Caught in a sudden downpour, we danced and laughed like nobody was watching.', memory_date: '2025-08-20', location: 'City Streets', category: 'romantic' },
+    { user_id: blandineId, title: 'Homemade Pizza Evening', description: 'We made pizza from scratch with our favorite toppings. Marc\'s first attempt was surprisingly good!', memory_date: '2025-09-10', location: 'Home Kitchen', category: 'milestones' },
+    { user_id: marcId, title: 'Library Date', description: 'We spent the afternoon reading to each other in the quiet corner of the library.', memory_date: '2025-09-28', location: 'City Library', category: 'dates' },
+    { user_id: blandineId, title: 'Bike Ride Adventure', description: 'Cycled through the countryside trails, stopping for photos and ice cream along the way.', memory_date: '2025-10-12', location: 'Countryside Trails', category: 'adventures' },
+    { user_id: marcId, title: 'Surprise Birthday Breakfast', description: 'Woke up early to make Blandine\'s favorite breakfast in bed with a handwritten letter.', memory_date: '2025-10-25', location: 'Home', category: 'milestones' },
+    { user_id: blandineId, title: 'Karaoke Night', description: 'We sang our hearts out to cheesy love songs. Marc killed "My Heart Will Go On"!', memory_date: '2025-11-08', location: 'Karaoke Bar', category: 'fun' },
+    { user_id: marcId, title: 'Christmas Market Stroll', description: 'Holding hands through the twinkling lights, sipping hot chocolate, and picking out ornaments.', memory_date: '2025-12-15', location: 'Christmas Market', category: 'romantic' },
+    { user_id: blandineId, title: 'New Year\'s Eve Kiss', description: 'We welcomed the new year with a kiss under the fireworks. The perfect start to forever.', memory_date: '2025-12-31', location: 'City Square', category: 'romantic' },
+    { user_id: marcId, title: 'Rainy Day Puzzles', description: 'Stuck indoors on a rainy Sunday, we built a 1000-piece puzzle while listening to jazz.', memory_date: '2026-01-18', location: 'Home', category: 'fun' },
   ];
   for (const m of memories) {
     await db.query(
@@ -44,7 +55,7 @@ async function seed() {
       [m.user_id, m.title, m.description, m.memory_date, m.location, m.category]
     );
   }
-  console.log('Memories seeded: 4');
+  console.log('Memories seeded: ' + memories.length);
 
   // 3. Timeline
   const timelineEvents = [

@@ -2,14 +2,23 @@ const db = require('../config/db');
 
 exports.getAll = async (req, res) => {
   try {
-    const [rows] = await db.query(
-      `SELECT m.*, u.fullname AS sender_name
-       FROM messages m
-       JOIN users u ON m.sender_id = u.id
-       WHERE m.sender_id = ? OR m.receiver_id = ?
-       ORDER BY m.sent_at DESC`,
-      [req.user.id, req.user.id]
-    );
+    let query;
+    let params;
+    if (req.user.role === 'admin') {
+      query = `SELECT m.*, u.fullname AS sender_name
+               FROM messages m
+               JOIN users u ON m.sender_id = u.id
+               ORDER BY m.sent_at DESC`;
+      params = [];
+    } else {
+      query = `SELECT m.*, u.fullname AS sender_name
+               FROM messages m
+               JOIN users u ON m.sender_id = u.id
+               WHERE m.sender_id = ? OR m.receiver_id = ?
+               ORDER BY m.sent_at DESC`;
+      params = [req.user.id, req.user.id];
+    }
+    const [rows] = await db.query(query, params);
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });

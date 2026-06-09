@@ -21,7 +21,7 @@ const statusConfig = {
   'Completed': { color: '#22c55e', bg: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.15)', dot: '#22c55e' },
 };
 
-function GoalsEmpty({ isAdmin, onAdd }) {
+function GoalsEmpty({ user, onAdd }) {
   return (
     <div className="empty-state">
       <div className="empty-state-icon" style={{ background: 'rgba(34,211,238,0.08)', color: '#22d3ee' }}>
@@ -29,11 +29,11 @@ function GoalsEmpty({ isAdmin, onAdd }) {
       </div>
       <h3 className="empty-state-title">No Goals Yet</h3>
       <p className="empty-state-desc">
-        {isAdmin
+        {user
           ? 'Dream big together. Start setting goals for your future adventures.'
           : 'No goals have been set yet. Check back for future plans.'}
       </p>
-      {isAdmin && (
+      {user && (
         <button className="btn-primary btn-sm mt-2" onClick={onAdd}>
           <span><i className="bi-plus-lg" /> Set Your First Goal</span>
         </button>
@@ -43,7 +43,7 @@ function GoalsEmpty({ isAdmin, onAdd }) {
 }
 
 export default function Goals() {
-  const { isAdmin } = useAuth();
+  const { user } = useAuth();
   const [goals, setGoals] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: '', description: '', target_date: '' });
@@ -52,13 +52,13 @@ export default function Goals() {
 
   const load = async () => {
     try {
-      const api = isAdmin ? goalsAPI : publicAPI;
+      const api = user ? goalsAPI : publicAPI;
       const res = await api.getGoals();
       setGoals(res.data);
     } catch {}
   };
 
-  useEffect(() => { load(); }, [isAdmin]);
+  useEffect(() => { load(); }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,14 +80,12 @@ export default function Goals() {
   };
 
   const handleEdit = (g) => {
-    if (!isAdmin) return;
     setForm({ title: g.title, description: g.description || '', target_date: g.target_date || '' });
     setEditing(g.id);
     setShowForm(true);
   };
 
   const handleStatusChange = async (g, status) => {
-    if (!isAdmin) return;
     if (status === 'Completed') {
       setConfetti(true);
       setTimeout(() => setConfetti(false), 3000);
@@ -97,7 +95,6 @@ export default function Goals() {
   };
 
   const handleDelete = async (id) => {
-    if (!isAdmin) return;
     if (!confirm('Delete this goal?')) return;
     await goalsAPI.remove(id);
     load();
@@ -130,7 +127,7 @@ export default function Goals() {
             </p>
           </motion.div>
 
-          {isAdmin && (
+          {user && (
             <div className="flex justify-center mb-6">
               <button className="btn-primary" onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ title: '', description: '', target_date: '' }); }}>
                 <span className="flex items-center gap-1.5">
@@ -141,7 +138,7 @@ export default function Goals() {
             </div>
           )}
 
-          {showForm && isAdmin && (
+          {showForm && user && (
             <motion.form
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -163,7 +160,7 @@ export default function Goals() {
           )}
 
           {goals.length === 0 ? (
-            <GoalsEmpty isAdmin={isAdmin} onAdd={() => setShowForm(true)} />
+            <GoalsEmpty user={user} onAdd={() => setShowForm(true)} />
           ) : (
             <>
               {Object.entries(grouped).map(([status, items]) =>
@@ -217,7 +214,7 @@ export default function Goals() {
                               <i className="bi-calendar me-1" />Target: {g.target_date}
                             </p>
                           )}
-                          {isAdmin && (
+                          {user && (
                             <div className="flex items-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid var(--border-color)' }}>
                               <select
                                 value={g.status}

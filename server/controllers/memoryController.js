@@ -28,6 +28,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
+    const [rows] = await db.query('SELECT user_id FROM memories WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Memory not found' });
+    if (req.user.role !== 'admin' && rows[0].user_id !== req.user.id) {
+      return res.status(403).json({ error: 'You can only edit your own memories' });
+    }
     const { title, description, memory_date, location, category } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
     let query = 'UPDATE memories SET title = COALESCE(?, title), description = COALESCE(?, description), memory_date = COALESCE(?, memory_date), location = COALESCE(?, location), category = COALESCE(?, category)';
@@ -59,6 +64,11 @@ exports.like = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
+    const [rows] = await db.query('SELECT user_id FROM memories WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Memory not found' });
+    if (req.user.role !== 'admin' && rows[0].user_id !== req.user.id) {
+      return res.status(403).json({ error: 'You can only delete your own memories' });
+    }
     await db.query('DELETE FROM memories WHERE id = ?', [req.params.id]);
     res.json({ message: 'Memory deleted' });
   } catch (err) {

@@ -15,6 +15,8 @@ const footerLinks = [
   { to: '/memories', label: 'Memories' },
   { to: '/gallery', label: 'Gallery' },
   { to: '/timeline', label: 'Timeline' },
+  { to: '/reasons', label: 'Reasons' },
+  { to: '/mood-tracker', label: 'Mood' },
   { to: '/contact', label: 'Contact' },
 ];
 

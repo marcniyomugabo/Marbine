@@ -13,8 +13,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register(form);
-      navigate('/');
+      const result = await register(form);
+      navigate(result.user?.isAdmin ? '/admin' : '/home');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
     }

@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Memories from './pages/Memories';
 import Gallery from './pages/Gallery';
 import Messages from './pages/Messages';
@@ -14,13 +15,25 @@ import Timeline from './pages/Timeline';
 import Contact from './pages/Contact';
 import Goals from './pages/Goals';
 import Profile from './pages/Profile';
-import Register from './pages/Register';
 import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminGallery from './pages/admin/AdminGallery';
 import AdminMemories from './pages/admin/AdminMemories';
 import AdminTimeline from './pages/admin/AdminTimeline';
 import AdminFeedback from './pages/admin/AdminFeedback';
+import AdminGoals from './pages/admin/AdminGoals';
+import AdminUsers from './pages/admin/AdminUsers';
+import UserDashboard from './pages/UserDashboard';
+import UserHome from './pages/UserHome';
+import LoveLetters from './pages/LoveLetters';
+import Wishlist from './pages/Wishlist';
+import LoveAnalytics from './pages/LoveAnalytics';
+import LoveMap from './pages/LoveMap';
+import Reasons from './pages/Reasons';
+import MoodTracker from './pages/MoodTracker';
+import Surprise from './pages/Surprise';
+import Secret from './pages/Secret';
+import LoveQuiz from './pages/LoveQuiz';
 
 function AdminRoute({ children }) {
   const { user, loading, isAdmin } = useAuth();
@@ -40,7 +53,7 @@ function AdminRoute({ children }) {
 }
 
 function AuthRoute({ children }) {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
       <div className="flex flex-col items-center gap-4">
@@ -51,7 +64,7 @@ function AuthRoute({ children }) {
       </div>
     </div>
   );
-  return user ? <Navigate to="/" /> : children;
+  return user ? <Navigate to={isAdmin ? '/admin' : '/home'} /> : children;
 }
 
 function AppLayout() {
@@ -72,8 +85,10 @@ function AppLayout() {
               <Route path="gallery" element={<AdminGallery />} />
               <Route path="memories" element={<AdminMemories />} />
               <Route path="timeline" element={<AdminTimeline />} />
-              <Route path="feedback" element={<AdminFeedback />} />
-            </Route>
+              <Route path="goals" element={<AdminGoals />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="feedback" element={<AdminFeedback />} />
+              </Route>
           </Routes>
         ) : (
           <div className="pt-16">
@@ -86,9 +101,20 @@ function AppLayout() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/timeline" element={<Timeline />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/goals" element={!user || !isAdmin ? <Navigate to="/" /> : <Goals />} />
-                <Route path="/messages" element={!user || !isAdmin ? <Navigate to="/login" /> : <Messages />} />
-                <Route path="/profile" element={<AdminRoute><Profile /></AdminRoute>} />
+                <Route path="/home" element={!user ? <Navigate to="/login" /> : <UserHome />} />
+                <Route path="/user" element={!user ? <Navigate to="/login" /> : <UserDashboard />} />
+                <Route path="/love-letters" element={!user ? <Navigate to="/login" /> : <LoveLetters />} />
+                <Route path="/wishlist" element={!user ? <Navigate to="/login" /> : <Wishlist />} />
+                <Route path="/love-analytics" element={!user ? <Navigate to="/login" /> : <LoveAnalytics />} />
+                <Route path="/love-map" element={<LoveMap />} />
+                <Route path="/goals" element={<Goals />} />
+                <Route path="/messages" element={!user ? <Navigate to="/login" /> : <Messages />} />
+                <Route path="/profile" element={!user ? <Navigate to="/login" /> : <Profile />} />
+                <Route path="/reasons" element={!user ? <Navigate to="/login" /> : <Reasons />} />
+                <Route path="/mood-tracker" element={!user ? <Navigate to="/login" /> : <MoodTracker />} />
+                <Route path="/surprise" element={!user ? <Navigate to="/login" /> : <Surprise />} />
+                <Route path="/secret" element={<Secret />} />
+                <Route path="/love-quiz" element={!user ? <Navigate to="/login" /> : <LoveQuiz />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </AnimatePresence>

@@ -5,8 +5,8 @@ const adminOnly = require('../middleware/adminOnly');
 const goalController = require('../controllers/goalController');
 
 router.get('/', goalController.getAll);
-router.post('/', required, adminOnly, goalController.create);
-router.put('/:id', required, adminOnly, goalController.update);
-router.delete('/:id', required, adminOnly, goalController.remove);
+router.post('/', required, goalController.create);
+router.put('/:id', required, goalController.update);
+router.delete('/:id', required, goalController.remove);
 
 module.exports = router;

@@ -17,7 +17,7 @@ const fadeUp = {
 };
 
 export default function Gallery() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   const [serverItems, setServerItems] = useState([]);
   const [file, setFile] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(null);
@@ -32,6 +32,7 @@ export default function Gallery() {
       url: s.file_url,
       alt: s.file_name || `Upload ${s.id}`,
       local: false,
+      user_id: s.user_id,
     })),
   ];
 
@@ -110,7 +111,7 @@ export default function Gallery() {
             </div>
           </div>
 
-          {isAdmin && (
+          {user && (
             <motion.form
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -170,7 +171,7 @@ export default function Gallery() {
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   </div>
-                  {isAdmin && !img.local && typeof img.originalId === 'number' && (
+                  {!img.local && typeof img.originalId === 'number' && (isAdmin || img.user_id === user?.id) && (
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2 rounded-2xl">
                       <button
                         onClick={(e) => { e.stopPropagation(); handleDelete(img.originalId); }}

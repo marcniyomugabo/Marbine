@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marbine — A Love Story</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <title>Marbine Memories — A Love Story</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ec4899'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -13,25 +12,28 @@
       --secondary: #a855f7;
       --gold: #d4a853;
       --gold-light: #fbbf24;
-      --transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    [data-bs-theme="dark"] {
-      --bg-gradient: linear-gradient(135deg, #0a0e1a 0%, #0d111f 50%, #0a0e1a 100%);
-      --card-bg: rgba(15, 20, 40, 0.6);
-      --card-border: rgba(255, 255, 255, 0.04);
-      --card-hover: rgba(18, 25, 50, 0.7);
-      --text-muted: #8a8a9a;
+      --transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #0d111f;
+      --bg-card: rgba(15, 20, 40, 0.6);
+      --bg-card-hover: rgba(18, 25, 50, 0.7);
+      --border-color: rgba(255, 255, 255, 0.04);
+      --text-primary: #f0f0f5;
+      --text-secondary: #8a8a9a;
+      --text-tertiary: #5a5a6a;
       --nav-bg: rgba(10, 14, 26, 0.85);
       --input-bg: rgba(255, 255, 255, 0.03);
     }
 
-    [data-bs-theme="light"] {
-      --bg-gradient: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #faf5ff 100%);
-      --card-bg: rgba(255, 255, 255, 0.7);
-      --card-border: rgba(0, 0, 0, 0.04);
-      --card-hover: rgba(255, 255, 255, 0.85);
-      --text-muted: #6b6b80;
+    [data-theme="light"] {
+      --bg-primary: #faf5ff;
+      --bg-secondary: #f3e8ff;
+      --bg-card: rgba(255, 255, 255, 0.7);
+      --bg-card-hover: rgba(255, 255, 255, 0.85);
+      --border-color: rgba(0, 0, 0, 0.04);
+      --text-primary: #1a1a2e;
+      --text-secondary: #6b6b80;
+      --text-tertiary: #9a9ab0;
       --nav-bg: rgba(250, 245, 255, 0.85);
       --input-bg: rgba(0, 0, 0, 0.02);
     }
@@ -40,28 +42,134 @@
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-gradient);
-      color: var(--bs-body-color);
-      transition: background var(--transition), color var(--transition);
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
+      overflow: hidden;
+      transition: background var(--transition), color var(--transition);
     }
 
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 2px; }
 
-    .navbar {
-      background: var(--nav-bg) !important;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: background var(--transition);
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(236,72,153,0.08), transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.06), transparent 50%),
+        radial-gradient(ellipse at 50% 0%, rgba(236,72,153,0.04), transparent 40%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .navbar-brand {
+    [data-theme="light"] .bg-gradient {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(236,72,153,0.06), transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.04), transparent 50%);
+    }
+
+    .dot-pattern {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    [data-theme="light"] .dot-pattern {
+      background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 14px;
+      animation: floatUp linear infinite;
+      opacity: 0.2;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-100vh) rotate(180deg) scale(1.2); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+      opacity: 0.6;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .brand-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1rem;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(236,72,153,0.1);
+      animation: pulseHeart 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .brand-icon svg { width: 28px; height: 28px; color: var(--primary); }
+
+    .brand h1 {
       font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
       font-weight: 700;
-      font-size: 1.35rem;
       background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
       background-size: 200% 200%;
       -webkit-background-clip: text;
@@ -75,668 +183,394 @@
       50% { background-position: 100% 50%; }
     }
 
-    .nav-link {
-      font-size: 0.875rem;
-      font-weight: 500;
-      padding: 0.5rem 0.75rem !important;
-      border-radius: 10px;
+    .brand p {
+      font-family: 'Great Vibes', cursive;
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-top: 0.25rem;
+    }
+
+    .login-form { display: flex; flex-direction: column; gap: 1rem; }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group .icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: color var(--transition);
+    }
+
+    .input-group input:focus ~ .icon { color: var(--primary); }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.6rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition);
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: rgba(236,72,153,0.25);
+      box-shadow: 0 0 0 3px rgba(236,72,153,0.06), 0 2px 8px rgba(236,72,153,0.04);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .input-group input::placeholder { color: var(--text-tertiary); opacity: 0.5; }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
       transition: all var(--transition);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
     }
 
-    .nav-link i { font-size: 1rem; }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: linear-gradient(135deg, rgba(160,160,170,0.12), rgba(140,140,150,0.08));
-      color: #d1d5db !important;
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(236,72,153,0.3);
+      opacity: 0.95;
     }
+
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn-login .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+
+    .btn-login.loading .spinner { display: block; }
+    .btn-login.loading .btn-text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg {
+      font-size: 0.8rem;
+      color: #ef4444;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      background: rgba(239,68,68,0.06);
+      border: 1px solid rgba(239,68,68,0.08);
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    .success-msg {
+      font-size: 0.8rem;
+      color: #22c55e;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(34,197,94,0.06);
+      border: 1px solid rgba(34,197,94,0.08);
+      display: none;
+    }
+
+    .success-msg.show { display: block; }
+
+    .info-box {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+      background: rgba(236,72,153,0.04);
+      border: 1px solid rgba(236,72,153,0.06);
+    }
+
+    .info-box p {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .info-box .highlight {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .info-box .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: rgba(236,72,153,0.12);
+      color: var(--primary);
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-text a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-text a:hover { opacity: 0.8; }
 
     .theme-toggle {
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 10;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.04);
-      background: transparent;
-      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
       transition: all var(--transition);
+      backdrop-filter: blur(12px);
     }
 
     .theme-toggle:hover {
       background: rgba(160,160,170,0.1);
-      border-color: rgba(160,160,170,0.2);
-      color: #d1d5db;
+      border-color: rgba(160,160,170,0.15);
+      color: var(--text-primary);
+      transform: rotate(15deg);
     }
 
-    .hero-section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 1rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(236,72,153,0.08), transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    .hero-subtitle {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-desc {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin: 0 auto 2rem;
-      line-height: 1.7;
-    }
-
-    .hero-heart {
+    .role-tag {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      color: var(--primary);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .hero-heart::before,
-    .hero-heart::after {
-      content: '';
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    }
-
-    section { padding: 5rem 0; }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      gap: 0.3rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
       font-weight: 600;
-      text-align: center;
-      margin-bottom: 0.5rem;
     }
 
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 3rem;
-    }
+    .role-tag.admin { background: rgba(236,72,153,0.12); color: var(--primary); }
+    .role-tag.user { background: rgba(168,85,247,0.1); color: var(--secondary); }
 
-    .card-custom {
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: all var(--transition);
-      height: 100%;
-    }
-
-    .card-custom:hover {
-      background: var(--card-hover);
-      border-color: rgba(236,72,153,0.12);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 48px rgba(0,0,0,0.3), 0 0 24px rgba(236,72,153,0.04);
-    }
-
-    .card-icon {
-      width: 48px; height: 48px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 12px;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      background: rgba(236,72,153,0.08);
-      color: var(--primary);
-    }
-
-    .card-custom h5 {
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-custom p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .gallery-img {
-      border-radius: 12px;
-      overflow: hidden;
-      aspect-ratio: 1;
-      background: var(--card-bg);
+    .creds-hint {
       display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed var(--border-color);
+    }
+
+    .creds-hint .row {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: var(--text-muted);
-      transition: all var(--transition);
-      cursor: pointer;
-    }
-
-    .gallery-img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 32px rgba(236,72,153,0.12);
-    }
-
-    .timeline-item {
-      position: relative;
-      padding-left: 2rem;
-      padding-bottom: 2rem;
-    }
-
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: 7px;
-      top: 6px;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
-    }
-
-    .timeline-item:last-child::before { display: none; }
-
-    .timeline-dot {
-      position: absolute;
-      left: 0;
-      top: 4px;
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      border: 2px solid var(--primary);
-      background: var(--bs-body-bg);
-      box-shadow: 0 0 12px rgba(236,72,153,0.3);
-    }
-
-    .timeline-item h6 {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .timeline-item .date {
       font-size: 0.75rem;
-      color: var(--primary);
-      font-weight: 500;
-      margin-bottom: 0.3rem;
+      color: var(--text-secondary);
     }
 
-    .timeline-item p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
+    .creds-hint .row span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
     }
 
-    .contact-form .form-control,
-    .contact-form .form-select {
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      color: var(--bs-body-color);
-      border-radius: 10px;
-      padding: 0.7rem 1rem;
-      font-size: 0.9rem;
-      transition: all var(--transition);
-    }
-
-    .contact-form .form-control:focus,
-    .contact-form .form-select:focus {
-      border-color: rgba(236,72,153,0.25);
-      box-shadow: 0 0 0 1px rgba(236,72,153,0.1);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .contact-form .form-control::placeholder {
-      color: var(--text-muted);
-      opacity: 0.6;
-    }
-
-    .btn-primary-custom {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 10px;
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .btn-primary-custom:hover {
-      opacity: 0.92;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(236,72,153,0.3);
-    }
-
-    footer {
-      background: var(--nav-bg);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-top: 1px solid rgba(255,255,255,0.04);
-      padding: 3rem 0 1.5rem;
-      transition: background var(--transition);
-    }
-
-    footer h6 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .social-link {
-      width: 38px; height: 38px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%;
-      border: 1px solid rgba(160,160,170,0.08);
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: all var(--transition);
-    }
-
-    .social-link:hover {
-      background: rgba(236,72,153,0.08);
-      color: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .footer-link:hover { color: #d1d5db; }
-
-    .toast-container { position: fixed; top: 80px; right: 1rem; z-index: 9999; }
-
-    @media (max-width: 767.98px) {
-      .navbar-collapse {
-        background: var(--nav-bg);
-        backdrop-filter: blur(32px);
-        -webkit-backdrop-filter: blur(32px);
-        border-radius: 16px;
-        padding: 0.75rem;
-        margin-top: 0.5rem;
-        border: 1px solid rgba(236,72,153,0.08);
-      }
-      .hero-section { min-height: 80vh; padding: 5rem 1rem 3rem; }
-      section { padding: 3rem 0; }
+    @media (max-width: 480px) {
+      .card { padding: 1.75rem; border-radius: 20px; }
+      .brand h1 { font-size: 1.35rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Toast -->
-  <div class="toast-container">
-    <div id="successToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background: rgba(15,20,40,0.9); backdrop-filter: blur(20px); border: 1px solid rgba(160,160,170,0.12); border-radius: 12px;">
-      <div class="d-flex">
-        <div class="toast-body text-white" style="font-size: 0.85rem;">
-          <i class="bi-check-circle-fill me-2" style="color: #9ca3af;"></i>
-          <span id="toastMessage">Message sent successfully!</span>
+  <div class="bg-gradient"></div>
+  <div class="dot-pattern"></div>
+  <div class="floating-hearts" id="hearts"></div>
+
+  <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+    <span id="themeIcon">&#9790;</span>
+  </button>
+
+  <div class="container">
+    <div class="card" id="loginCard">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <h1>Marbine Memories</h1>
+        <p>A love story written in the stars</p>
+      </div>
+
+      <form class="login-form" id="loginForm">
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="success-msg" id="successMsg"></div>
+
+        <div class="input-group">
+          <span class="icon">&#9993;</span>
+          <input type="email" id="emailInput" placeholder="Email address" value="marbine@gmail.com" required autocomplete="email" />
+        </div>
+
+        <div class="input-group">
+          <span class="icon">&#128273;</span>
+          <input type="password" id="passwordInput" placeholder="Password" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn-login" id="loginBtn">
+          <span class="spinner"></span>
+          <span class="btn-text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            Enter Marbine
+          </span>
+        </button>
+      </form>
+
+      <div class="info-box">
+        <p style="margin-bottom: 0.5rem;">
+          <span class="admin-badge">&#9733; Admin Access</span>
+        </p>
+        <p>
+          Welcome to <span class="highlight">Marbine Memories</span> &mdash; a digital sanctuary for our love story.
+          Sign in with the admin account to manage memories, gallery, timeline, and more.
+        </p>
+        <div class="creds-hint">
+          <div class="row">
+            <span>Email</span>
+            <span>marbine@gmail.com</span>
+          </div>
+          <div class="row">
+            <span>Password</span>
+            <span>Marbine@18</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-text">
+        Made with <span style="color: var(--primary);">&#9829;</span> for Marc &amp; Blandine
       </div>
     </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-md fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <i class="bi-heart-fill me-1" style="color: #9ca3af;"></i>
-        Marbine
-      </a>
-      <div class="d-flex align-items-center gap-2 order-md-3">
-        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
-          <i class="bi-moon-stars" id="themeIcon"></i>
-        </button>
-        <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation" style="color: var(--text-muted);">
-          <i class="bi-list fs-5"></i>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto align-items-md-center gap-1">
-          <li class="nav-item"><a class="nav-link active" href="#home"><i class="bi-house"></i><span class="d-md-none ms-2">Home</span><span class="d-none d-md-inline">Home</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="#memories"><i class="bi-journal-text"></i><span class="d-md-none ms-2">Memories</span><span class="d-none d-md-inline">Memories</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="#gallery"><i class="bi-images"></i><span class="d-md-none ms-2">Gallery</span><span class="d-none d-md-inline">Gallery</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="#timeline"><i class="bi-clock-history"></i><span class="d-md-none ms-2">Timeline</span><span class="d-none d-md-inline">Timeline</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact"><i class="bi-envelope"></i><span class="d-md-none ms-2">Contact</span><span class="d-none d-md-inline">Contact</span></a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero-section" id="home">
-    <div class="container position-relative">
-      <div class="hero-subtitle">A love story written in the stars</div>
-      <h1 class="hero-title gradient-text mb-3">
-        Marbine <span style="font-family: 'Playfair Display', serif; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Memories</span>
-      </h1>
-      <p class="hero-desc">
-        Every moment with you is a treasure. This is our digital garden of memories, milestones, and dreams we're building together.
-      </p>
-      <div class="hero-heart mb-4">
-        <span></span>
-        <i class="bi-heart-fill"></i>
-        <span></span>
-      </div>
-      <div class="d-flex gap-3 justify-content-center flex-wrap">
-        <a href="#memories" class="btn-primary-custom text-decoration-none">Explore Our Story</a>
-        <a href="#contact" class="btn btn-outline-secondary rounded-3 px-4 py-2" style="font-size: 0.9rem; font-weight: 500; border-color: var(--card-border); color: var(--text-muted);">Get in Touch</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Memories -->
-  <section id="memories">
-    <div class="container">
-      <h2 class="section-title gradient-text">Our Memories</h2>
-      <p class="section-subtitle">Precious moments we've shared together</p>
-      <div class="row g-3">
-        <div class="col-sm-6 col-lg-3">
-          <div class="card-custom">
-            <div class="card-icon"><i class="bi-camera"></i></div>
-            <h5>First Adventure</h5>
-            <p>Our first trip together, discovering new places and creating memories that will last a lifetime.</p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card-custom">
-            <div class="card-icon" style="background: rgba(168,85,247,0.08); color: var(--secondary);"><i class="bi-music-note"></i></div>
-            <h5>Our Song</h5>
-            <p>The melody that brings us back to that perfect evening when everything felt just right.</p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card-custom">
-            <div class="card-icon" style="background: rgba(212,168,83,0.08); color: var(--gold);"><i class="bi-sun"></i></div>
-            <h5>Sunset Moments</h5>
-            <p>Chasing sunsets hand in hand, painting the sky with our dreams and whispered promises.</p>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card-custom">
-            <div class="card-icon" style="background: rgba(34,211,238,0.08); color: #22d3ee;"><i class="bi-stars"></i></div>
-            <h5>Stargazing</h5>
-            <p>Under the starry sky, we found a universe in each other's eyes. A night we'll never forget.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section id="gallery" style="background: rgba(236,72,153,0.02);">
-    <div class="container">
-      <h2 class="section-title gradient-text">Gallery</h2>
-      <p class="section-subtitle">Snapshots of our journey</p>
-      <div class="row g-3">
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-heart"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-flower1"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-camera"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-sun"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-tree"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-moon"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-stars"></i></div></div>
-        <div class="col-6 col-md-4 col-lg-3"><div class="gallery-img"><i class="bi-cloud-sun"></i></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Timeline -->
-  <section id="timeline">
-    <div class="container" style="max-width: 600px;">
-      <h2 class="section-title gradient-text">Our Timeline</h2>
-      <p class="section-subtitle">The milestones that shaped our story</p>
-      <div class="card-custom p-4">
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="date">April 2025</div>
-          <h6>The Beginning</h6>
-          <p>Our paths crossed and everything changed. The start of something beautiful.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="date">June 2025</div>
-          <h6>First Adventure</h6>
-          <p>Our first trip together, exploring new places and creating unforgettable memories.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="date">September 2025</div>
-          <h6>Building Dreams</h6>
-          <p>Starting to plan our future together, one dream at a time.</p>
-        </div>
-        <div class="timeline-item mb-0">
-          <div class="timeline-dot"></div>
-          <div class="date">Forever</div>
-          <h6>Our Journey Continues</h6>
-          <p class="mb-0">Every day with you is a new page in our story. The best is yet to come.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" style="background: rgba(236,72,153,0.02);">
-    <div class="container" style="max-width: 600px;">
-      <h2 class="section-title gradient-text">Get in Touch</h2>
-      <p class="section-subtitle">We'd love to hear from you</p>
-      <div class="card-custom p-4">
-        <form id="contactForm" class="contact-form" novalidate>
-          <div class="row g-3">
-            <div class="col-sm-6">
-              <input type="text" class="form-control" id="name" placeholder="Your Name *" required />
-              <div class="invalid-feedback">Name is required</div>
-            </div>
-            <div class="col-sm-6">
-              <input type="tel" class="form-control" id="phone" placeholder="Phone Number" />
-            </div>
-            <div class="col-sm-6">
-              <input type="email" class="form-control" id="email" placeholder="Email Address *" required />
-              <div class="invalid-feedback">Email is required</div>
-            </div>
-            <div class="col-sm-6">
-              <input type="text" class="form-control" id="location" placeholder="Location" />
-            </div>
-            <div class="col-12">
-              <textarea class="form-control" id="comment" rows="4" placeholder="Your Message *" required></textarea>
-              <div class="invalid-feedback">Message is required</div>
-            </div>
-          </div>
-          <button type="submit" class="btn-primary-custom mt-3 w-100">
-            <i class="bi-send me-2"></i>Send Message
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-4">
-          <h6 class="d-flex align-items-center gap-2" style="-webkit-text-fill-color: unset;">
-            <i class="bi-heart-fill" style="color: #9ca3af;"></i>
-            Marbine
-          </h6>
-          <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            A love story written in the stars. Every moment with you is a treasure.
-          </p>
-        </div>
-        <div class="col-md-2">
-          <h6>Pages</h6>
-          <div class="d-flex flex-column gap-1">
-            <a href="#home" class="footer-link"><i class="bi-house"></i>Home</a>
-            <a href="#memories" class="footer-link"><i class="bi-journal-text"></i>Memories</a>
-            <a href="#gallery" class="footer-link"><i class="bi-images"></i>Gallery</a>
-            <a href="#timeline" class="footer-link"><i class="bi-clock-history"></i>Timeline</a>
-            <a href="#contact" class="footer-link"><i class="bi-envelope"></i>Contact</a>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <h6>Follow Us</h6>
-          <div class="d-flex flex-wrap gap-1">
-            <a href="https://facebook.com/marbine_18" target="_blank" class="social-link" title="Facebook"><i class="bi-facebook"></i></a>
-            <a href="https://instagram.com/Marbine_18" target="_blank" class="social-link" title="Instagram"><i class="bi-instagram"></i></a>
-            <a href="https://youtube.com/@MarbineTv" target="_blank" class="social-link" title="YouTube"><i class="bi-youtube"></i></a>
-            <a href="https://twitter.com/marbine18" target="_blank" class="social-link" title="Twitter"><i class="bi-twitter-x"></i></a>
-            <a href="mailto:marbine18@gmail.com" class="social-link" title="Email"><i class="bi-envelope-fill"></i></a>
-            <a href="https://tiktok.com/@marbine18" target="_blank" class="social-link" title="TikTok"><i class="bi-tiktok"></i></a>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <h6>Contact Info</h6>
-          <div class="d-flex flex-column gap-1">
-            <a href="mailto:marbine18@gmail.com" class="footer-link"><i class="bi-envelope"></i>marbine18@gmail.com</a>
-            <a href="https://facebook.com/marbine_18" target="_blank" class="footer-link"><i class="bi-facebook"></i>@marbine_18</a>
-            <a href="https://instagram.com/Marbine_18" target="_blank" class="footer-link"><i class="bi-instagram"></i>@Marbine_18</a>
-            <a href="https://tiktok.com/@marbine18" target="_blank" class="footer-link"><i class="bi-tiktok"></i>@marbine18</a>
-          </div>
-        </div>
-      </div>
-      <hr style="border-color: rgba(255,255,255,0.04); margin: 2rem 0 1rem;" />
-      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
-        <p class="mb-0" style="font-size: 0.8rem; color: var(--text-muted);">
-          &copy; 2026 Marbine. Made with <i class="bi-heart-fill" style="color: #9ca3af;"></i>
-        </p>
-        <p class="mb-0" style="font-size: 0.75rem; color: var(--text-muted);">
-          Platform: Marbine_18
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Floating hearts
+    const heartsContainer = document.getElementById('hearts');
+    const symbols = ['\u2661', '\u2665', '\u2728', '\u2606'];
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.className = 'heart';
+      el.textContent = symbols[i % symbols.length];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (12 + Math.random() * 18) + 's';
+      el.style.animationDelay = (Math.random() * 20) + 's';
+      el.style.fontSize = (10 + Math.random() * 16) + 'px';
+      heartsContainer.appendChild(el);
+    }
+
     // Theme toggle
     const html = document.documentElement;
     const themeIcon = document.getElementById('themeIcon');
-    const savedTheme = localStorage.getItem('marbine-theme') || 'dark';
-
-    html.setAttribute('data-bs-theme', savedTheme);
-    themeIcon.className = savedTheme === 'dark' ? 'bi-moon-stars' : 'bi-sun';
+    const saved = localStorage.getItem('marbine-theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    themeIcon.textContent = saved === 'dark' ? '\u263E' : '\u2600';
 
     document.getElementById('themeToggle').addEventListener('click', () => {
-      const current = html.getAttribute('data-bs-theme');
+      const current = html.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-bs-theme', next);
-      themeIcon.className = next === 'dark' ? 'bi-moon-stars' : 'bi-sun';
+      html.setAttribute('data-theme', next);
+      themeIcon.textContent = next === 'dark' ? '\u263E' : '\u2600';
       localStorage.setItem('marbine-theme', next);
     });
 
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-      navbar.style.borderBottomColor = window.scrollY > 20
-        ? 'rgba(160,160,170,0.06)'
-        : 'rgba(255,255,255,0.04)';
-    });
+    // Login
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('emailInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
 
-    // Active nav link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => {
-        const top = s.offsetTop - 120;
-        if (window.scrollY >= top) current = s.getAttribute('id');
-      });
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-      });
-    });
-
-    // Contact form
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const form = e.target;
-
-      if (!form.checkValidity()) {
-        form.classList.add('was-validated');
-        return;
-      }
-
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn.innerHTML;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-      btn.disabled = true;
-
-      const data = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        location: document.getElementById('location').value,
-        comment: document.getElementById('comment').value,
-      };
+      errorMsg.classList.remove('show');
+      successMsg.classList.remove('show');
+      loginBtn.classList.add('loading');
+      loginBtn.disabled = true;
 
       try {
-        await fetch('/api/contact', {
+        const res = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify({
+            email: emailInput.value.trim(),
+            password: passwordInput.value,
+          }),
         });
-        form.reset();
-        form.classList.remove('was-validated');
-        document.getElementById('toastMessage').textContent = 'Message sent successfully! We\'ll get back to you soon.';
-        const toast = new bootstrap.Toast(document.getElementById('successToast'));
-        toast.show();
-      } catch {
-        document.getElementById('toastMessage').textContent = 'Something went wrong. Please try again.';
-        const toast = new bootstrap.Toast(document.getElementById('successToast'));
-        toast.show();
-      } finally {
-        btn.innerHTML = original;
-        btn.disabled = false;
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Invalid credentials');
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        successMsg.textContent = 'Welcome to Marbine, love! Redirecting...';
+        successMsg.classList.add('show');
+
+        setTimeout(() => {
+          window.location.href = window.__FRONTEND_URL__ || '/';
+        }, 1200);
+      } catch (err) {
+        errorMsg.textContent = err.message || 'Login failed. Please try again.';
+        errorMsg.classList.add('show');
+        loginBtn.classList.remove('loading');
+        loginBtn.disabled = false;
       }
     });
 
-    // Auto-close mobile nav on link click
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        const collapse = document.getElementById('mainNav');
-        const bsCollapse = bootstrap.Collapse.getInstance(collapse);
-        if (bsCollapse) bsCollapse.hide();
-      });
+    // Pre-fill password hint on focus
+    passwordInput.addEventListener('focus', () => {
+      if (!passwordInput.value) {
+        passwordInput.placeholder = 'Marbine@18';
+      }
     });
   </script>
 </body>

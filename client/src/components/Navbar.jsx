@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import MusicToggle from './MusicToggle';
 
-const navLinks = [
+const guestLinks = [
   { to: '/', label: 'Home' },
   { to: '/memories', label: 'Memories' },
   { to: '/gallery', label: 'Gallery' },
@@ -13,7 +13,22 @@ const navLinks = [
   { to: '/contact', label: 'Contact' },
 ];
 
+const userLinks = [
+  { to: '/home', label: 'Home' },
+  { to: '/memories', label: 'Memories' },
+  { to: '/gallery', label: 'Gallery' },
+  { to: '/timeline', label: 'Timeline' },
+  { to: '/love-map', label: 'Map' },
+  { to: '/love-analytics', label: 'Stats' },
+  { to: '/reasons', label: 'Reasons' },
+  { to: '/mood-tracker', label: 'Mood' },
+  { to: '/surprise', label: 'Surprise' },
+  { to: '/love-quiz', label: 'Quiz' },
+  { to: '/contact', label: 'Contact' },
+];
+
 const adminExtra = { to: '/admin', label: 'Admin' };
+const userExtra = { to: '/user', label: 'Dashboard' };
 
 export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
@@ -24,7 +39,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
 
-  const links = user && isAdmin ? [...navLinks, adminExtra] : navLinks;
+  const links = user
+    ? isAdmin
+      ? [...userLinks, adminExtra]
+      : [...userLinks, userExtra]
+    : guestLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -118,7 +137,7 @@ export default function Navbar() {
               >
                 <i className={`${theme === 'dark' ? 'bi-sun-fill' : 'bi-moon-stars-fill'} text-lg`} />
               </motion.button>
-              {user && isAdmin ? (
+              {user ? (
                 <motion.button
                   onClick={handleLogout}
                   className="relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-1.5"
@@ -129,7 +148,7 @@ export default function Navbar() {
                   <i className="bi-box-arrow-right text-base" />
                   <span className="hidden lg:inline">Logout</span>
                 </motion.button>
-              ) : !user ? (
+              ) : (
                 <Link to="/login">
                   <motion.button
                     className="relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300"
@@ -146,7 +165,7 @@ export default function Navbar() {
                     </span>
                   </motion.button>
                 </Link>
-              ) : null}
+              )}
             </div>
 
             <div className="flex md:hidden items-center gap-1.5">
@@ -229,7 +248,7 @@ export default function Navbar() {
                   className="mt-2 pt-2 space-y-1"
                   style={{ borderTop: '1px solid var(--border-color)' }}
                 >
-                  {user && isAdmin ? (
+                  {user ? (
                     <button
                       onClick={() => { handleLogout(); setOpen(false); }}
                       className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-500 hover:text-red-400 transition-all duration-200"
@@ -237,14 +256,14 @@ export default function Navbar() {
                       <i className="bi-box-arrow-right text-lg" />
                       Logout
                     </button>
-                  ) : !user ? (
+                  ) : (
                     <Link to="/login" onClick={() => setOpen(false)}>
                       <div className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-500 hover:text-white transition-all duration-200">
                         <i className="bi-heart text-lg" />
                         Sign In
                       </div>
                     </Link>
-                  ) : null}
+                  )}
                 </motion.div>
               </div>
             </motion.div>

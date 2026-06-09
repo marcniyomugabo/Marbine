@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-const publicAxios = axios.create({ baseURL: '/api' });
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
-const authAxios = axios.create({ baseURL: '/api' });
+const publicAxios = axios.create({ baseURL: BASE_URL });
+
+const authAxios = axios.create({ baseURL: BASE_URL });
 
 authAxios.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
@@ -11,8 +13,8 @@ authAxios.interceptors.request.use((req) => {
 });
 
 export const loginAPI = {
-  register: (data) => publicAxios.post('/auth/register', data),
   login: (data) => publicAxios.post('/auth/login', data),
+  register: (data) => publicAxios.post('/auth/register', data),
 };
 
 export const authAPI = {
@@ -74,6 +76,81 @@ export const contactAPI = {
   remove: (id) => authAxios.delete(`/contact/${id}`),
 };
 
+export const analyticsAPI = {
+  getStats: () => authAxios.get('/analytics/stats'),
+  getLoveStats: () => authAxios.get('/analytics/love-stats'),
+};
+
+export const usersAPI = {
+  getAll: () => authAxios.get('/users'),
+  create: (data) => authAxios.post('/users', data),
+  updateRole: (id, data) => authAxios.put(`/users/${id}/role`, data),
+  remove: (id) => authAxios.delete(`/users/${id}`),
+};
+
 export const getAnniversary = () => publicAxios.get('/anniversary');
+
+export const reactionsAPI = {
+  getByMemory: (memoryId) => publicAxios.get(`/reactions/${memoryId}`),
+  toggle: (memoryId, emoji) => authAxios.post(`/reactions/${memoryId}`, { emoji }),
+};
+
+export const loveLettersAPI = {
+  getAll: () => authAxios.get('/love-letters'),
+  create: (data) => authAxios.post('/love-letters', data),
+  markOpened: (id) => authAxios.put(`/love-letters/${id}/open`),
+  unlockByPassword: (id, password) => authAxios.post(`/love-letters/${id}/unlock`, { password }),
+  remove: (id) => authAxios.delete(`/love-letters/${id}`),
+};
+
+export const wishlistAPI = {
+  getAll: () => authAxios.get('/wishlist'),
+  create: (data) => authAxios.post('/wishlist', data),
+  markPurchased: (id) => authAxios.put(`/wishlist/${id}/purchase`),
+  remove: (id) => authAxios.delete(`/wishlist/${id}`),
+};
+
+export const songsAPI = {
+  getAll: () => publicAxios.get('/songs'),
+  create: (data) => authAxios.post('/songs', data),
+  remove: (id) => authAxios.delete(`/songs/${id}`),
+};
+
+export const reasonsAPI = {
+  getAll: () => authAxios.get('/reasons'),
+  getRandom: () => authAxios.get('/reasons/random'),
+  create: (data) => authAxios.post('/reasons', data),
+  remove: (id) => authAxios.delete(`/reasons/${id}`),
+};
+
+export const moodAPI = {
+  getByUser: () => authAxios.get('/moods'),
+  getByDateRange: (start, end) => authAxios.get(`/moods/range?start=${start}&end=${end}`),
+  createOrUpdate: (data) => authAxios.post('/moods', data),
+  remove: (id) => authAxios.delete(`/moods/${id}`),
+};
+
+export const dailyMessagesAPI = {
+  getRandom: () => authAxios.get('/daily-messages/random'),
+  getAll: () => authAxios.get('/daily-messages'),
+  create: (data) => authAxios.post('/daily-messages', data),
+  remove: (id) => authAxios.delete(`/daily-messages/${id}`),
+};
+
+export const romanticAPI = {
+  getDailyMessage: (mood, specialDay) => {
+    const params = new URLSearchParams();
+    if (mood) params.append('mood', mood);
+    if (specialDay) params.append('special_day', specialDay);
+    return authAxios.get(`/romantic/daily-message?${params}`);
+  },
+  checkSpecialDay: () => authAxios.get('/romantic/check-special-day'),
+};
+
+export const quizAPI = {
+  getQuestions: () => authAxios.get('/quiz/questions'),
+  submit: (answers) => authAxios.post('/quiz/submit', { answers }),
+  getHistory: () => authAxios.get('/quiz/history'),
+};
 
 export default authAxios;

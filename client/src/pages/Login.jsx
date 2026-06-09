@@ -13,8 +13,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(form);
-      navigate('/');
+      const result = await login(form);
+      navigate(result.user?.isAdmin ? '/admin' : '/home');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
@@ -74,10 +74,6 @@ export default function Login() {
           <p className="text-center text-xs mt-5" style={{ color: 'var(--text-tertiary)' }}>
             Don't have an account?{' '}
             <Link to="/register" className="font-medium transition-colors duration-200" style={{ color: '#ec4899' }}>Register</Link>
-          </p>
-
-          <p className="text-center text-xs mt-4" style={{ color: 'var(--text-tertiary)' }}>
-            Marbine Memories &mdash; for Marc &amp; Blandine
           </p>
         </div>
       </motion.div>

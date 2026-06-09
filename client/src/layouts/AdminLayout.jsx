@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 
 const adminNav = [
   { to: '/admin', label: 'Dashboard', icon: 'bi-speedometer2' },
+  { to: '/admin/users', label: 'Users', icon: 'bi-people' },
   { to: '/admin/memories', label: 'Memories', icon: 'bi-journal-text' },
   { to: '/admin/gallery', label: 'Gallery', icon: 'bi-images' },
   { to: '/admin/timeline', label: 'Timeline', icon: 'bi-clock-history' },
+  { to: '/admin/goals', label: 'Goals', icon: 'bi-bullseye' },
   { to: '/admin/feedback', label: 'Feedback', icon: 'bi-chat-dots' },
 ];
 

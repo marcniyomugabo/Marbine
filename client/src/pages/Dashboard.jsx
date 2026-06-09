@@ -14,11 +14,20 @@ const guestFeatures = [
   { title: 'Timeline', desc: 'Milestones together', path: '/timeline', icon: 'bi-clock-history', color: '#d4a853', tag: 'New' },
 ];
 
+const userFeatures = [
+  { title: 'Memories', desc: 'Our precious moments', path: '/memories', icon: 'bi-journal-text', color: '#ec4899', tag: 'Add' },
+  { title: 'Gallery', desc: 'Photos of our story', path: '/gallery', icon: 'bi-images', color: '#a855f7', tag: 'Upload' },
+  { title: 'Timeline', desc: 'Milestones together', path: '/timeline', icon: 'bi-clock-history', color: '#d4a853', tag: 'View' },
+  { title: 'Love Notes', desc: 'Send messages', path: '/messages', icon: 'bi-chat-heart', color: '#f59e0b', tag: 'Chat' },
+  { title: 'Goals', desc: 'Our future plans', path: '/goals', icon: 'bi-bullseye', color: '#22d3ee', tag: 'Plans' },
+  { title: 'Profile', desc: 'Your account', path: '/profile', icon: 'bi-person-circle', color: '#9ca3af', tag: 'Account' },
+];
+
 const adminFeatures = [
   { title: 'Memories', desc: 'Capture every moment', path: '/memories', icon: 'bi-journal-text', color: '#ec4899', tag: 'Manage' },
   { title: 'Gallery', desc: 'Photos of our story', path: '/gallery', icon: 'bi-images', color: '#a855f7', tag: 'Upload' },
   { title: 'Timeline', desc: 'Milestones together', path: '/timeline', icon: 'bi-clock-history', color: '#d4a853', tag: 'Track' },
-  { title: 'Love Notes', desc: 'Private messages', path: '/messages', icon: 'bi-chat-heart', color: '#f59e0b', tag: 'Admin' },
+  { title: 'Love Notes', desc: 'Private messages', path: '/messages', icon: 'bi-chat-heart', color: '#f59e0b', tag: 'Inbox' },
   { title: 'Goals', desc: 'Our future plans', path: '/goals', icon: 'bi-bullseye', color: '#22d3ee', tag: 'Plans' },
   { title: 'Profile', desc: 'Your account', path: '/profile', icon: 'bi-person-circle', color: '#9ca3af', tag: 'Account' },
 ];
@@ -109,7 +118,7 @@ function FeatureCard({ f }) {
 export default function Dashboard() {
   const { user, isAdmin } = useAuth();
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
-  const features = isAdmin ? adminFeatures : guestFeatures;
+  const features = !user ? guestFeatures : isAdmin ? adminFeatures : userFeatures;
 
   useEffect(() => {
     const handler = (e) => {
@@ -121,7 +130,7 @@ export default function Dashboard() {
 
   return (
     <PageTransition>
-      {isAdmin ? <FloatingParticles count={12} speed={0.5} /> : <FloatingHearts count={10} speed={0.4} />}
+      {user && isAdmin ? <FloatingParticles count={12} speed={0.5} /> : <FloatingHearts count={10} speed={0.4} />}
 
       <section className="hero-section">
         <div

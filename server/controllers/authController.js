@@ -9,17 +9,20 @@ exports.register = async (req, res) => {
   try {
     const { fullname, email, password } = req.body;
     if (!fullname || !email || !password) {
-      return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: 'Fullname, email, and password are required' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
     const [existing] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
     if (existing.length > 0) {
       return res.status(409).json({ error: 'Email already registered' });
     }
     const role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'user';
-    const hashed = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const [result] = await db.query(
       'INSERT INTO users (fullname, email, password, role) VALUES (?, ?, ?, ?)',
-      [fullname, email, hashed, role]
+      [fullname, email, hashedPassword, role]
     );
     const token = jwt.sign(
       { id: result.insertId, email },
@@ -27,7 +30,7 @@ exports.register = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
     res.status(201).json({
-      message: 'User registered successfully',
+      message: 'Registration successful',
       token,
       user: {
         id: result.insertId,
@@ -35,7 +38,6 @@ exports.register = async (req, res) => {
         email,
         role,
         isAdmin: role === 'admin',
-        profile_image: null,
       },
     });
   } catch (err) {
@@ -54,6 +56,10 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     const user = users[0];
+    const role = user.role || (ADMIN_EMAILS.includes(user.email.toLowerCase()) ? 'admin' : 'user');
+    if (role !== 'admin') {
+      return res.status(403).json({ error: 'Only admin can login' });
+    }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -63,7 +69,6 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
-    const role = user.role || (ADMIN_EMAILS.includes(user.email.toLowerCase()) ? 'admin' : 'user');
     res.json({
       message: 'Login successful',
       token,
@@ -73,7 +78,7 @@ exports.login = async (req, res) => {
         email: user.email,
         role,
         profile_image: user.profile_image,
-        isAdmin: role === 'admin',
+        isAdmin: true,
       },
     });
   } catch (err) {
